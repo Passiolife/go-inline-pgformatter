@@ -1,70 +1,45 @@
 # go-inline-pgformatter README
 
-This is the README for your extension "go-inline-pgformatter". After writing up a brief description, we recommend including the following sections.
+Auto-formatter for postgres style SQL strings within backticks in go.
+Just run `Go - Inline Format pgSQL Strings` from the command palette!
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Open your command palette and call `Go - Inline Format pgSQL Strings` to format the current document.
+All strings between backticks will be looked at, and if it appears to be SQL it will be formatted!
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+You must have perl installed and in your path.
+This package comes with a version of pg_format by `darold`. To use an updated or custom version of pg_format, please point
+the `pgFormatPath` configuration value to the `pg_format` in the directory on your disk. Make sure the `lib` folder is a sibling!
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `goPgFormat.pgFormatPath`: the absolute path to the `pg_format` perl script on your disk. If blank, the built-in is used.
+* `goPgFormat.matchSpacing`: when false, the sql strings are fully left justified. If true, they match the indentation level of the start-line.
+* `goPgFormat.addTabs`: when above 0, and matchSpacing is on, this adds additional tabs after matching the indentation of the first lines first character.
+* `goPgFormat.keywordCase`: changes the SQL keywords to a specific case
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+We do not format `%` symbols, so as not to break any go formatters like `%s, %v, %V %.2f` etc. Anything with a % should be left as is.
+It is hard to know when something is a formatter or not, for instance `WHERE text LIKE '%s'` could mean that at some point you are going to
+`fmt.Sprintf()` this line, or it could mean wildcard matching, so that `%s` matches `is`. 
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+Enjoy!
 
 ### 1.0.0
 
-Initial release of ...
+First release - recently refactored to format all sql code in one subprocess call to increase speed.
 
 ### 1.0.1
 
-Fixed issue #.
+Configuration values fixed
+### 1.0.2
 
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Added more configuration, prevent formatting of % signs
