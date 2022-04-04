@@ -6,6 +6,7 @@ import { promises as fs } from 'fs';
 
 const keywords = ["update", "select", "insert", "into", "delete", "from", "where"];
 const sqlSplitMarker = "\n-- go-inline-pgformatter-splitmark\n";
+const builtinPgFormat = "/.vscode/extensions/undefined.go-inline-pgformatter-1.0.0/pg_format";
 
 async function exists (path : string) {  
 	try {
@@ -40,12 +41,11 @@ export function activate(context: vscode.ExtensionContext) {
 		const homedir = require('os').homedir();
 		const config = vscode.workspace.getConfiguration("goPgFormat");
 		const pgFormatPathUser = config.get("pgFormatPath");
-		const pgFormatPathDefault = config.inspect("pgFormatPath")?.defaultValue;
 
 		// expand our built-in pg_format path, or grab the users and make them str
 		var pgFormatPath = "";
-		if (pgFormatPathDefault === pgFormatPathUser) {
-			pgFormatPath = `${homedir}${pgFormatPathDefault}`;
+		if (`${pgFormatPathUser}` === "") {
+			pgFormatPath = builtinPgFormat;
 		}
 		else {
 			pgFormatPath = `${pgFormatPathUser}`;

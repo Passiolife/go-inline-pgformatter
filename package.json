@@ -1,16 +1,44 @@
 {
-    "name": "go-inline-pgformatter",
+	"name": "go-inline-pgformatter",
 	"displayName": "Go Inline-pgFormatter",
 	"description": "Formats postgres SQL code found in strings in a .go file",
 	"version": "1.0.0",
+	"publisher": "passioinc",
+	"galleryBanner": {
+	  "theme": "dark",
+	  "color": "#555555"
+	},
+	"icon": "logo.png",
+	"author": {
+		"name": "Alex Branton"
+	},
 	"engines": {
-		"vscode": "^1.66.0"
+		"vscode": "^1.54.0"
 	},
 	"categories": [
+		"Programming Languages",
+		"Formatters",
 		"Other"
 	],
+	"keywords": [
+		"pgsql",
+		"go",
+		"golang",
+		"string",
+		"inline",
+		"postgres",
+		"PostgreSQL",
+		"SQL",
+		"Formatting"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/Passiolife/go-inline-pgformatter",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Passiolife/go-inline-pgformatter"
+	},
 	"activationEvents": [
-        "onCommand:go-inline-pgformatter.formatAllSql"
+		"onCommand:go-inline-pgformatter.formatAllSql"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -23,33 +51,36 @@
 		"configuration": {
 			"title": "Go inline-pgFormatter",
 			"properties": {
-			  "goPgFormat.pgFormatPath": {
-				"type": "string",
-				"devDefault": "/passio/vscode/extensions/custom/go-inline-pgformatter/pg_format",
-				"default": "/.vscode/extensions/undefined.go-inline-pgformatter-1.0.0/pg_format",
-				"description": "path to pg_format perl script"
-			  },
-			  "goPgFormat.matchSpacing": {
-				"type": "bool",
-				"default": true,
-				"description": "try to match indentation-level of the assigned variable name"
-			  },
-			  "goPgFormat.addTabs": {
-				"type": "int",
-				"default": 1,
-				"description": "after matching the variable indentation, add this many more tabs (disabled if matching is off)"
-			  },
-			  "goPgFormat.keywordCase": {
-				"type": "string",
-				"default": "2",
-				"enum": ["0", "1", "2", "3"],
-				"enumDescriptions": [
-				  "leaves all pgSql keywords in the casing they are currently in",
-				  "changes allpgSql keywords to lowercase",
-				  "changes allpgSql keywords to UPPERCASE",
-				  "changes allpgSql keywords to Capitalized"
-				]
-			  }
+				"goPgFormat.pgFormatPath": {
+					"type": "string",
+					"description": "path to pg_format perl script"
+				},
+				"goPgFormat.matchSpacing": {
+					"type": "bool",
+					"default": true,
+					"description": "try to match indentation-level of the assigned variable name"
+				},
+				"goPgFormat.addTabs": {
+					"type": "int",
+					"default": 1,
+					"description": "after matching the variable indentation, add this many more tabs (disabled if matching is off)"
+				},
+				"goPgFormat.keywordCase": {
+					"type": "string",
+					"default": "2",
+					"enum": [
+						"0",
+						"1",
+						"2",
+						"3"
+					],
+					"enumDescriptions": [
+						"leaves all pgSql keywords in the casing they are currently in",
+						"changes allpgSql keywords to lowercase",
+						"changes allpgSql keywords to UPPERCASE",
+						"changes allpgSql keywords to Capitalized"
+					]
+				}
 			}
 		}
 	},
