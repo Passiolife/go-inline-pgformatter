@@ -6,7 +6,7 @@ import { promises as fs } from 'fs';
 
 const keywords = ["update", "select", "insert", "into", "delete", "from", "where"];
 const sqlSplitMarker = "\n-- go-inline-pgformatter-splitmark\n";
-const builtinPgFormat = "/.vscode/extensions/undefined.go-inline-pgformatter-1.0.0/pg_format";
+const builtinPgFormat = "/.vscode/extensions/passioinc.go-inline-pgformatter-1.0.1/pg_format";
 
 async function exists (path : string) {  
 	try {
