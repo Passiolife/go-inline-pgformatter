@@ -1,28 +1,27 @@
 # go-inline-pgformatter README
 
 Auto-formatter for postgres style SQL strings within backticks in go.
+Just run `Go - Inline Format pgSQL Strings` from the command palette!
 
 ## Features
 
-Open your command palette and call "Go - Inline Format pgSQL Strings" to format the current document.
+Open your command palette and call `Go - Inline Format pgSQL Strings` to format the current document.
+All strings between backticks will be looked at, and if it appears to be SQL it will be formatted!
 
 ## Requirements
 
 You must have perl installed and in your path.
-This package comes with a version of pg_format by `darold`. To use an updated version of this script,
-please download, extract, and then point the `pgFormatPath` configuration value : https://github.com/darold/pgFormatter/archive/refs/heads/master.zip
-
-Extract this somewhere on your machine and provide the path to `pg_format` in the directory (including the `/lib` folder) in the extension settings
+This package comes with a version of pg_format by `darold`. To use an updated or custom version of pg_format, please point
+the `pgFormatPath` configuration value to the `pg_format` in the directory on your disk. Make sure the `lib` folder is a sibling!
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `goPgFormat.path`: the absolute path to the `pg_format` perl script on your disk (see requirements)
+* `goPgFormat.pgFormatPath`: the absolute path to the `pg_format` perl script on your disk. If blank, the built-in is used.
+* `goPgFormat.matchSpacing`: when false, the sql strings are fully left justified. If true, they match the indentation level of the start-line.
+* `goPgFormat.addTabs`: when above 0, and matchSpacing is on, this adds additional tabs after matching the indentation of the first lines first character.
+* `goPgFormat.keywordCase`: changes the SQL keywords to a specific case
 
 ## Known Issues
 
@@ -30,9 +29,9 @@ None yet...
 
 ## Release Notes
 
-You better like it, Dave.
+Enjoy!
 
 ### 1.0.0
 
-First release
+First release - recently refactored to format all sql code in one subprocess call to increase speed.
 
