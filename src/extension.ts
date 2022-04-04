@@ -6,8 +6,16 @@ import { promises as fs } from 'fs';
 
 const keywords = ["update", "select", "insert", "into", "delete", "from", "where"];
 const sqlSplitMarker = "\n-- go-inline-pgformatter-splitmark\n";
-const builtinPgFormat = "/.vscode/extensions/passioinc.go-inline-pgformatter-1.0.1/pg_format";
+const builtinPgFormat = "/.vscode/extensions/passioinc.go-inline-pgformatter-";
 
+const keywordCaseOptions = [
+	"leaves all pgSql keywords in the casing they are currently in",
+	"changes allpgSql keywords to lowercase",
+	"changes allpgSql keywords to UPPERCASE",
+	"changes allpgSql keywords to Capitalized"
+];
+
+// see if path exists on disk
 async function exists (path : string) {  
 	try {
 	  await fs.access(path);
@@ -17,6 +25,7 @@ async function exists (path : string) {
 	}
   }
 
+// check if text block is SQL
 function likelySql(s: string) {
 	const matches = keywords.filter(element => {
 		return (s.toLowerCase()).includes(element);
@@ -42,10 +51,13 @@ export function activate(context: vscode.ExtensionContext) {
 		const config = vscode.workspace.getConfiguration("goPgFormat");
 		const pgFormatPathUser = config.get("pgFormatPath");
 
+		// get meta values like the version
+		const packageMeta = require('../package.json');
+
 		// expand our built-in pg_format path, or grab the users and make them str
 		var pgFormatPath = "";
 		if (`${pgFormatPathUser}` === "") {
-			pgFormatPath = builtinPgFormat;
+			pgFormatPath = `${homedir}${builtinPgFormat}${packageMeta.version}/pg_format`;
 		}
 		else {
 			pgFormatPath = `${pgFormatPathUser}`;
@@ -133,7 +145,8 @@ export function activate(context: vscode.ExtensionContext) {
 							sqlStringsUpdated += 1;
 	
 							// need to escape parameters or they break - also need to make sure the line ends with a single semi-colon or it thinks its all one statement
-							let cleanedText = allText.replace(/\$/g, "\\$").replace(/;$/, "") + ";";
+							// also changing %s to a custom string - so we dont break go fmts
+							let cleanedText = allText.replace(/\$/g, "\\$").replace(/\%/g, "xxpggo").replace(/;$/, "") + ";";
 
 							// add our markers for where to split each statement
 							allSql += (cleanedText + sqlSplitMarker);
@@ -149,14 +162,15 @@ export function activate(context: vscode.ExtensionContext) {
 				}	
 
 				// run perl pg_format - insert our prefs
-				var stdout = execSync(`echo "${allSql}" | perl ${pgFormatPath} --keyword-case ${keywordCase} --type-case ${keywordCase}`) ;
+				let caseIndex = keywordCaseOptions.indexOf(`${keywordCase}`);
+				var stdout = execSync(`echo "${allSql}" | perl ${pgFormatPath} --keyword-case ${caseIndex} --type-case ${caseIndex}`) ;
 				
 				// loop the stdout result split by our comment splitter, with some additional whitespace allowance after formatting
 				var c = 0;
 				stdout.toString().split(/\n\s*-- go-inline-pgformatter-splitmark\n/).forEach(sqlBlock => {
 
-					// remove start/end whitespace
-					let replWith = sqlBlock.replace(/^[\s\n\r]+|[\s\n\r]+$/, "");
+					// remove start/end whitespace, and reset our silly % sign marker, as we cant make pg_sql not format them
+					let replWith = sqlBlock.replace(/^[\s\n\r]+|[\s\n\r]+$/, "").replace(/xxpggo/g, "%");
 					
 					// we can get some empty blocks - skip them
 					if (replWith === "" ) {

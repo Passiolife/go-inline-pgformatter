@@ -25,7 +25,9 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-None yet... 
+We do not format `%` symbols, so as not to break any go formatters like `%s, %v, %V %.2f` etc. Anything with a % should be left as is.
+It is hard to know when something is a formatter or not, for instance `WHERE text LIKE '%s'` could mean that at some point you are going to
+`fmt.Sprintf()` this line, or it could mean wildcard matching, so that `%s` matches `is`. 
 
 ## Release Notes
 
@@ -35,3 +37,9 @@ Enjoy!
 
 First release - recently refactored to format all sql code in one subprocess call to increase speed.
 
+### 1.0.1
+
+Configuration values fixed
+### 1.0.2
+
+Added more configuration, prevent formatting of % signs

@@ -2,7 +2,7 @@
 	"name": "go-inline-pgformatter",
 	"displayName": "Go Inline-pgFormatter",
 	"description": "Formats postgres SQL code found in strings in a .go file",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "passioinc",
 	"galleryBanner": {
 	  "theme": "dark",
@@ -56,25 +56,19 @@
 					"description": "path to pg_format perl script"
 				},
 				"goPgFormat.matchSpacing": {
-					"type": "bool",
+					"type": "boolean",
 					"default": true,
 					"description": "try to match indentation-level of the assigned variable name"
 				},
 				"goPgFormat.addTabs": {
-					"type": "int",
+					"type": "number",
 					"default": 1,
 					"description": "after matching the variable indentation, add this many more tabs (disabled if matching is off)"
 				},
 				"goPgFormat.keywordCase": {
 					"type": "string",
-					"default": "2",
+					"default": "changes allpgSql keywords to UPPERCASE",
 					"enum": [
-						"0",
-						"1",
-						"2",
-						"3"
-					],
-					"enumDescriptions": [
 						"leaves all pgSql keywords in the casing they are currently in",
 						"changes allpgSql keywords to lowercase",
 						"changes allpgSql keywords to UPPERCASE",
