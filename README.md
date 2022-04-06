@@ -43,3 +43,6 @@ Configuration values fixed
 ### 1.0.2
 
 Added more configuration, prevent formatting of % signs
+### 1.0.3
+
+Remove semicolon's inserted at end of line for internal formatting

@@ -2,7 +2,7 @@
 	"name": "go-inline-pgformatter",
 	"displayName": "Go Inline-pgFormatter",
 	"description": "Formats postgres SQL code found in strings in a .go file",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"publisher": "passioinc",
 	"galleryBanner": {
 	  "theme": "dark",
