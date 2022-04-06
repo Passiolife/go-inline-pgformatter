@@ -170,7 +170,7 @@ export function activate(context: vscode.ExtensionContext) {
 				stdout.toString().split(/\n\s*-- go-inline-pgformatter-splitmark\n/).forEach(sqlBlock => {
 
 					// remove start/end whitespace, and reset our silly % sign marker, as we cant make pg_sql not format them
-					let replWith = sqlBlock.replace(/^[\s\n\r]+|[\s\n\r]+$/, "").replace(/xxpggo/g, "%");
+					let replWith = sqlBlock.replace(/^[\s\n\r]+|[\s\n\r]+$/, "").replace(/xxpggo/g, "%").replace(/;$/, "");
 					
 					// we can get some empty blocks - skip them
 					if (replWith === "" ) {
